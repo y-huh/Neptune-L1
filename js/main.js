@@ -16,10 +16,10 @@ arr.map((item) => {
             <p class="mb-2">Capital: ${item.capital}</p>
         </div>
         <div class="flex items-center justify-between p-2">
-            <button class="w-[40px] h-[40px] rounded-full  border-[2px] border-black flex items-center justify-center">
+            <button onclick="handleLikeBtnClick(${item.id})" class="${item.isLiked ? "bg-red-300" : ""} w-[40px] h-[40px] rounded-full  border-[2px] border-black flex items-center justify-center">
                 <img src="./images/like-heart-svgrepo-com.svg" width="22" height="22"/>
             </button>
-            <button class="w-[40px] h-[40px] rounded-full  border-[2px] border-black flex items-center justify-center">
+            <button onclick="handleBasketBtnClick(${item.id})" class="${item.isBasket ? "bg-yellow-300" : ""} w-[40px] h-[40px] rounded-full  border-[2px] border-black flex items-center justify-center">
                 <img src="./images/save-instagram.png" width="22" height="22"/>
             </button>
             <button class="w-[40px] h-[40px] rounded-full  border-[2px] border-black flex items-center justify-center">
@@ -33,8 +33,51 @@ arr.map((item) => {
 });
 }
 
+let elLikeCount = document.querySelector(".like-count")
+
+
+
+let elBasketCount = document.querySelector(".basket-count")
+
+
 renderCountries(countrys, elCountryList);
 
+function handleLikeBtnClick(id) {
+    const singleObj = countrys.find(item => item.id === id);
+    
+    singleObj.isLiked = !singleObj.isLiked;
+  
+    renderCountries(countrys, elCountryList);
+    elLikeCount.textContent = countrys.filter(item => item.isLiked === true).length;
+
+}
+function handleBasketBtnClick(id) {
+    const singleObj = countrys.find(item => item.id === id);
+    
+    singleObj.isBasket = !singleObj.isBasket;
+  
+    renderCountries(countrys, elCountryList);
+    elBasketCount.textContent = countrys.filter(item => item.isBasket === true).length;
+
+}
+
+
+let elLikeBtn = document.querySelector(".like-btn")
+let elBasketBtn = document.querySelector(".basket-btn")
+  
+elLikeBtn.addEventListener("click", function (e) {
+    const likeCountry = countrys.filter(item => item.isLiked);
+    renderCountries(likeCountry, elCountryList);
+  });
+  // Show Like end
+  
+  // Show Basket List
+  elBasketBtn.addEventListener("click", function (e) {
+    const basketCountry = countrys.filter(item => item.isBasket);
+    renderCountries(basketCountry, elCountryList);
+  });
+  // Show Basket end
+  
 
 
 function renderSelectOption(arr, list) {
